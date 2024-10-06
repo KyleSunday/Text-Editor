@@ -25,7 +25,7 @@ module.exports = () => {
         short_name: 'J.A.T.E.',
         description: 'The magical text editor that does wonders.',
         background_color:'#280137',
-        theme_color:'B40AF7',
+        theme_color:'#B40AF7',
         start_url:'/',
         public_path:'/',
         icons:[
@@ -37,14 +37,27 @@ module.exports = () => {
         ],
       }),
       new InjectManifest({
-        swSrc: './Develop/client/src/src-sw.js',
+        swSrc: './src-sw.js',
         swDest: 'sw.js',
       })
     ],
 
     module: {
       rules: [
-        
+        {
+          test: /\.css$/i,
+          use: ['style-loader', 'css-loader'],
+        },
+        {
+          test: /\.m?js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env'],
+              plugins: ['@babel/plugin-proposal-object-rest-spread', '@babel/transform-runtime'],
+            }}
+        } 
       ],
     },
   };
