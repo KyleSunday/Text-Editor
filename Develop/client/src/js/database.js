@@ -15,17 +15,32 @@ const initdb = async () =>
   });
 
 
-export const putDb = async (content) => {
-  const dbPromise = openDB.open(storeName, 1, (upgrade) => {
-    const keyStore = upgrade.createObjectStore("keyVal");
-    keyStore.put(content, Math.random());
-  });
-};
-
-
-
-export const getDb = async () =>{
-  await db.get(storeName, key);
-};
-
-initdb();
+  export const putDb = async (content) => {
+    try {
+      const idb = await openDB('jate', 1);
+      const ta = idb.transaction('jate', 'readwrite');
+      const store = ta.objectStore('jate');
+      const request = store.add({ content: content });
+      const result = await request;
+      console.log('Data saved to the database', result);
+    } catch (error) {
+      console.error('putDb not implemented:', error);
+    };
+  };
+  
+  // TODO: Add logic for a method that gets all the content from the database
+  export const getDb = async () => {
+    try {
+      const idb = await openDB('jate', 1);
+      const ta = idb.transaction('jate', 'readonly');
+      const store = ta.objectStore('jate');
+      const request = store.getAll();
+      const result = await request;
+      console.log('result.value', result);
+      return result;
+    } catch (error) {
+      console.error('getDb not implemented:', error);
+    };
+  };
+  
+  initdb();
