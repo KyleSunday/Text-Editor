@@ -38,3 +38,6 @@ registerRoute(({ request }) => ['style', 'script', 'worker'].includes(request.de
     ],
   })
 );
+offlineFallback({
+  pageFallback: '/index.html',
+});
