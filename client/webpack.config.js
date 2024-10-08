@@ -3,7 +3,6 @@ const WebpackPwaManifest = require('webpack-pwa-manifest');
 const path = require('path');
 const { InjectManifest } = require('workbox-webpack-plugin');
 
-
 module.exports = () => {
   return {
     mode: 'development',
@@ -18,17 +17,18 @@ module.exports = () => {
     plugins: [
       new HtmlWebpackPlugin({
         template: './index.html',
-        title: 'J.A.T.E'
+        title: 'J.A.T.E.'
       }),
+
       new WebpackPwaManifest({
-        name: 'J.A.T.E. the text editor',
+        name: 'J.A.T.E. The Text Editor',
         short_name: 'J.A.T.E.',
-        description: 'The magical text editor that does wonders.',
-        background_color:'#280137',
-        theme_color:'#B40AF7',
-        start_url:'/',
-        public_path:'/',
-        icons:[
+        description: 'Your premier, on the go, text editor that works in all environments!',
+        background_color: '#272822',
+        theme_color: '#43315F',
+        start_url: '/',
+        publicPath: '/',
+        icons: [
           {
             src: path.resolve('./src/images/logo.png'),
             sizes: [96, 128, 192, 256, 384, 512],
@@ -39,7 +39,8 @@ module.exports = () => {
       new InjectManifest({
         swSrc: './src-sw.js',
         swDest: 'src-sw.js',
-      })
+      }), 
+
     ],
 
     module: {
@@ -50,15 +51,16 @@ module.exports = () => {
         },
         {
           test: /\.m?js$/,
-          exclude: /node_modules/,
+          exclude: /(node_modules|bower_components)/,
           use: {
             loader: 'babel-loader',
             options: {
               presets: ['@babel/preset-env'],
               plugins: ['@babel/plugin-proposal-object-rest-spread', '@babel/transform-runtime'],
-            }}
-        } 
+            },
+          }
+        },
       ],
-    },
+     },
   };
 };
